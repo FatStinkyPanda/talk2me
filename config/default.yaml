@@ -1,0 +1,32 @@
+stt:
+  model_path: "models/vosk/vosk-model-en-us-0.22"
+  wake_word_model_path: "models/vosk/vosk-model-small-en-us-0.15"
+  sample_rate: 16000
+
+tts:
+  model_path: "models/xtts/v2"
+  default_voice: "default"
+  sample_rate: 24000
+
+wake_words:
+  activation:
+    - "hey talk to me"
+    - "hello computer"
+  start_listening:
+    - "start listening"
+    - "listen up"
+  done_talking:
+    - "done talking"
+    - "that's all"
+    - "stop listening"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "*"
+
+audio:
+  input_device: null   # null = system default
+  output_device: null  # null = system default
+  chunk_size: 1024

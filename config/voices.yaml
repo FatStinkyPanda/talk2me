@@ -1,0 +1,10 @@
+voices:
+  default:
+    name: "Default Voice"
+    samples_dir: "voices/default/samples"
+    language: "en"
+
+  custom_voice_1:
+    name: "My Custom Voice"
+    samples_dir: "voices/custom_voice_1/samples"
+    language: "en"
