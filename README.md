@@ -5,6 +5,7 @@ A fully offline, self-contained voice interaction system featuring speech-to-tex
 ## Features
 
 ### Speech-to-Text (STT)
+
 - **Engine**: Vosk
 - **Models**: Dual-model system
   - High-accuracy model for transcription
@@ -12,24 +13,28 @@ A fully offline, self-contained voice interaction system featuring speech-to-tex
 - **Fully offline**: No internet connection required
 
 ### Text-to-Speech (TTS)
+
 - **Engine**: XTTS v2 (Coqui TTS)
 - **Voice Cloning**: Create and manage custom voice profiles
 - **Multi-voice Support**: Switch between cloned voices on demand
 - **Fully offline**: No cloud dependencies
 
 ### Wake Word System
+
 - Configurable wake words to activate listening
 - Configurable "start listening" phrases
 - Configurable "done talking" phrases
 - Low-latency detection using lightweight Vosk model
 
 ### Voice Cloning Management
+
 - Persistent storage of cloned voice profiles
 - Add/remove training samples at any time
 - Automatic retraining only when samples change
 - No manual retraining required for voice usage
 
 ### API Service
+
 - RESTful API endpoints for all features
 - WebSocket support for real-time streaming
 - Designed for integration with other applications
@@ -49,62 +54,42 @@ talk2me/
 ├── README.md
 ├── requirements.txt
 ├── setup.py
+├── pyproject.toml
 ├── config/
 │   ├── default.yaml          # Default configuration
 │   └── voices.yaml           # Voice profiles configuration
 ├── models/
-│   ├── vosk/
-│   │   ├── vosk-model-en-us-0.22/      # High-accuracy STT model
-│   │   └── vosk-model-small-en-us-0.15/ # Fast wake word model
-│   └── xtts/
-│       └── v2/               # XTTS v2 model files
+│   └── vosk-model-small-en-us-0.15/  # Vosk STT model
 ├── voices/
-│   └── [voice_name]/
-│       ├── samples/          # Audio samples for cloning
-│       └── metadata.json     # Voice profile metadata
+│   └── test_voice/
+│       └── samples/          # Audio samples for cloning
 ├── src/
-│   ├── __init__.py
-│   ├── main.py               # Application entry point
-│   ├── stt/
-│   │   ├── __init__.py
-│   │   ├── vosk_engine.py    # Vosk STT implementation
-│   │   └── wake_word.py      # Wake word detection
-│   ├── tts/
-│   │   ├── __init__.py
-│   │   ├── xtts_engine.py    # XTTS v2 implementation
-│   │   └── voice_manager.py  # Voice cloning management
-│   ├── api/
-│   │   ├── __init__.py
-│   │   ├── server.py         # FastAPI server
-│   │   ├── routes/
-│   │   │   ├── __init__.py
-│   │   │   ├── stt.py        # STT endpoints
-│   │   │   ├── tts.py        # TTS endpoints
-│   │   │   ├── voices.py     # Voice management endpoints
-│   │   │   ├── config.py     # Configuration endpoints
-│   │   │   └── websocket.py  # WebSocket handlers
-│   │   └── models.py         # Pydantic models
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── config.py         # Configuration management
-│   │   ├── audio.py          # Audio utilities
-│   │   └── events.py         # Event system
-│   └── utils/
+│   └── talk2me/
 │       ├── __init__.py
-│       ├── download.py       # Model downloader
-│       └── logger.py         # Logging utilities
+│       ├── api/
+│       │   ├── __init__.py
+│       │   └── main.py       # FastAPI server and all endpoints
+│       ├── core/
+│       │   ├── __init__.py
+│       │   └── wake_word.py  # Wake word detection
+│       ├── stt/
+│       │   ├── __init__.py
+│       │   └── engine.py     # Vosk STT implementation
+│       ├── tts/
+│       │   ├── __init__.py
+│       │   └── engine.py     # XTTS v2 implementation
+│       └── utils/
+│           └── __init__.py
 ├── scripts/
 │   ├── setup.sh              # Linux/macOS setup
 │   ├── setup.bat             # Windows setup
 │   └── download_models.py    # Model download script
 ├── tests/
 │   ├── __init__.py
-│   ├── test_stt.py
-│   ├── test_tts.py
-│   └── test_api.py
-└── docker/
-    ├── Dockerfile
-    └── docker-compose.yml
+│   ├── test_api.py
+│   ├── test_stt_engine.py
+│   ├── test_tts_engine.py
+│   └── test_wake_word.py
 ```
 
 ## Installation
@@ -112,16 +97,18 @@ talk2me/
 ### Automated Setup
 
 **Linux/macOS:**
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/FatStinkyPanda/talk2me.git
 cd talk2me
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
 ```
 
 **Windows:**
+
 ```batch
-git clone <repository-url>
+git clone https://github.com/FatStinkyPanda/talk2me.git
 cd talk2me
 scripts\setup.bat
 ```
@@ -129,6 +116,7 @@ scripts\setup.bat
 ### Manual Setup
 
 1. **Create virtual environment:**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # Linux/macOS
@@ -137,6 +125,7 @@ scripts\setup.bat
    ```
 
 2. **Install dependencies:**
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -152,12 +141,12 @@ scripts\setup.bat
 
 ```yaml
 stt:
-  model_path: "models/vosk/vosk-model-en-us-0.22"
-  wake_word_model_path: "models/vosk/vosk-model-small-en-us-0.15"
+  model_path: "models/vosk-model-small-en-us-0.15"
+  wake_word_model_path: "models/vosk-model-small-en-us-0.15"
   sample_rate: 16000
 
 tts:
-  model_path: "models/xtts/v2"
+  model_path: "models/models/xtts/v2"
   default_voice: "default"
   sample_rate: 24000
 
@@ -180,8 +169,8 @@ api:
     - "*"
 
 audio:
-  input_device: null   # null = system default
-  output_device: null  # null = system default
+  input_device: null # null = system default
+  output_device: null # null = system default
   chunk_size: 1024
 ```
 
@@ -194,9 +183,9 @@ voices:
     samples_dir: "voices/default/samples"
     language: "en"
 
-  custom_voice_1:
-    name: "My Custom Voice"
-    samples_dir: "voices/custom_voice_1/samples"
+  test_voice:
+    name: "Test Voice"
+    samples_dir: "voices/test_voice/samples"
     language: "en"
 ```
 
@@ -206,27 +195,28 @@ voices:
 
 ```bash
 # Start with default configuration
-python -m src.main
+talk2me
 
 # Start with custom config
-python -m src.main --config path/to/config.yaml
+talk2me --config path/to/config.yaml
 
 # Start API server only
-python -m src.main --api-only
+talk2me --api-only
 
 # Start with specific port
-python -m src.main --port 9000
+talk2me --port 9000
 ```
 
 ### Interactive Mode
 
 ```bash
-python -m src.main --interactive
+talk2me --interactive
 ```
 
 ## API Reference
 
 ### Base URL
+
 ```
 http://localhost:8000/api/v1
 ```
@@ -234,13 +224,16 @@ http://localhost:8000/api/v1
 ### Speech-to-Text Endpoints
 
 #### `POST /stt/transcribe`
+
 Transcribe audio file to text.
 
 **Request:**
+
 - Content-Type: `multipart/form-data`
 - Body: `audio` (file)
 
 **Response:**
+
 ```json
 {
   "text": "transcribed text here",
@@ -250,9 +243,11 @@ Transcribe audio file to text.
 ```
 
 #### `WebSocket /stt/stream`
+
 Real-time streaming transcription.
 
 **Messages:**
+
 - Send: Binary audio chunks
 - Receive: JSON with partial/final transcriptions
 
@@ -261,9 +256,11 @@ Real-time streaming transcription.
 ### Text-to-Speech Endpoints
 
 #### `POST /tts/synthesize`
+
 Convert text to speech.
 
 **Request:**
+
 ```json
 {
   "text": "Hello, world!",
@@ -273,13 +270,16 @@ Convert text to speech.
 ```
 
 **Response:**
+
 - Content-Type: `audio/wav`
 - Body: Audio binary data
 
 #### `POST /tts/synthesize/stream`
+
 Stream synthesized audio.
 
 **Request:**
+
 ```json
 {
   "text": "Long text to synthesize...",
@@ -288,6 +288,7 @@ Stream synthesized audio.
 ```
 
 **Response:**
+
 - Content-Type: `audio/wav`
 - Transfer-Encoding: chunked
 
@@ -296,9 +297,11 @@ Stream synthesized audio.
 ### Voice Management Endpoints
 
 #### `GET /voices`
+
 List all available voices.
 
 **Response:**
+
 ```json
 {
   "voices": [
@@ -313,9 +316,11 @@ List all available voices.
 ```
 
 #### `POST /voices`
+
 Create a new voice profile.
 
 **Request:**
+
 ```json
 {
   "id": "new_voice",
@@ -325,22 +330,28 @@ Create a new voice profile.
 ```
 
 #### `GET /voices/{voice_id}`
+
 Get voice profile details.
 
 #### `DELETE /voices/{voice_id}`
+
 Delete a voice profile.
 
 #### `POST /voices/{voice_id}/samples`
+
 Add sample audio to voice profile.
 
 **Request:**
+
 - Content-Type: `multipart/form-data`
 - Body: `audio` (file)
 
 #### `GET /voices/{voice_id}/samples`
+
 List all samples for a voice.
 
 #### `DELETE /voices/{voice_id}/samples/{sample_id}`
+
 Remove a sample from voice profile.
 
 ---
@@ -348,12 +359,15 @@ Remove a sample from voice profile.
 ### Configuration Endpoints
 
 #### `GET /config`
+
 Get current configuration.
 
 #### `PATCH /config`
+
 Update configuration.
 
 **Request:**
+
 ```json
 {
   "wake_words": {
@@ -363,9 +377,11 @@ Update configuration.
 ```
 
 #### `GET /config/wake-words`
+
 Get wake word configuration.
 
 #### `PUT /config/wake-words`
+
 Update wake word configuration.
 
 ---
@@ -373,9 +389,11 @@ Update wake word configuration.
 ### System Endpoints
 
 #### `GET /health`
+
 Health check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -386,9 +404,11 @@ Health check endpoint.
 ```
 
 #### `GET /status`
+
 Detailed system status.
 
 #### `POST /reload`
+
 Reload models and configuration.
 
 ---
@@ -396,9 +416,11 @@ Reload models and configuration.
 ### WebSocket Endpoints
 
 #### `WebSocket /ws/conversation`
+
 Full-duplex conversation mode.
 
 **Client -> Server Messages:**
+
 ```json
 {"type": "audio", "data": "<base64 audio>"}
 {"type": "config", "wake_words": ["hey"]}
@@ -406,6 +428,7 @@ Full-duplex conversation mode.
 ```
 
 **Server -> Client Messages:**
+
 ```json
 {"type": "transcription", "text": "hello", "final": true}
 {"type": "audio", "data": "<base64 audio>"}
@@ -418,6 +441,7 @@ Full-duplex conversation mode.
 ### Adding a New Voice
 
 1. **Create voice profile:**
+
    ```bash
    curl -X POST http://localhost:8000/api/v1/voices \
      -H "Content-Type: application/json" \
@@ -425,6 +449,7 @@ Full-duplex conversation mode.
    ```
 
 2. **Add audio samples:**
+
    ```bash
    curl -X POST http://localhost:8000/api/v1/voices/my_voice/samples \
      -F "audio=@sample1.wav"
@@ -463,23 +488,6 @@ Talk2Me is designed for complete offline operation:
 
 On first run, the setup script downloads required models (~4GB). After setup, no internet connection is needed.
 
-## Building for Distribution
-
-### Create Standalone Package
-
-```bash
-python scripts/build.py --target linux   # Linux bundle
-python scripts/build.py --target windows # Windows bundle
-python scripts/build.py --target macos   # macOS bundle
-```
-
-### Docker
-
-```bash
-cd docker
-docker-compose up -d
-```
-
 ## Development
 
 ### Running Tests
@@ -490,10 +498,11 @@ pytest tests/
 
 ### Code Style
 
+This project uses [ruff](https://github.com/astral-sh/ruff) for code formatting and linting, which combines the functionality of black, isort, and flake8 into a single, fast tool.
+
 ```bash
-black src/
-isort src/
-flake8 src/
+ruff format src/
+ruff check src/
 ```
 
 ## Troubleshooting
@@ -501,26 +510,30 @@ flake8 src/
 ### Common Issues
 
 **"No audio input device found"**
+
 - Ensure microphone is connected
 - Check system audio settings
 - Set specific device in config
 
 **"Model not found"**
+
 - Run `python scripts/download_models.py`
 - Check `models/` directory structure
 
 **"CUDA out of memory"**
+
 - Reduce batch size in config
 - Use CPU mode: `--device cpu`
 
 **"Voice cloning quality poor"**
+
 - Add more diverse samples
 - Ensure samples are clear audio
 - Use 10-15 second clips
 
 ## License
 
-[License Type] - See LICENSE file for details.
+MIT License - See LICENSE file for details.
 
 ## Acknowledgments
 

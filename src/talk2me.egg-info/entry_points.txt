@@ -1,0 +1,2 @@
+[console_scripts]
+talk2me = talk2me.cli:main

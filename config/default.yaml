@@ -1,10 +1,10 @@
 stt:
-  model_path: "models/vosk/vosk-model-en-us-0.22"
-  wake_word_model_path: "models/vosk/vosk-model-small-en-us-0.15"
+  model_path: "models/vosk-model-small-en-us-0.15"
+  wake_word_model_path: "models/vosk-model-small-en-us-0.15"
   sample_rate: 16000
 
 tts:
-  model_path: "models/xtts/v2"
+  model_path: "models/models/xtts/v2"
   default_voice: "default"
   sample_rate: 24000
 
@@ -27,6 +27,6 @@ api:
     - "*"
 
 audio:
-  input_device: null   # null = system default
-  output_device: null  # null = system default
+  input_device: null # null = system default
+  output_device: null # null = system default
   chunk_size: 1024

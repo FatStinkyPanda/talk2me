@@ -8,9 +8,9 @@
 [ -f ".code-quality-setup" ] || ~/mcp-config/setup-code-quality.sh
 ```
 
-| File Exists? | Action |
-|--------------|--------|
-| `.code-quality-setup` present | ✅ Proceed with development |
+| File Exists?                  | Action                                   |
+| ----------------------------- | ---------------------------------------- |
+| `.code-quality-setup` present | ✅ Proceed with development              |
 | `.code-quality-setup` missing | Run `~/mcp-config/setup-code-quality.sh` |
 
 ---
@@ -19,19 +19,19 @@
 
 ### Server Selection Matrix
 
-| Task | Primary Server | Fallback | Why |
-|------|---------------|----------|-----|
-| **Find code by meaning** | `code-index` | `filesystem` | Semantic search = 100x fewer tokens |
-| **Store knowledge permanently** | `qdrant` | `memory` | Vector DB persists across sessions |
-| **Project context** | `memory-bank` | `memory` | Project-specific, structured |
-| **Complex reasoning** | `sequential-thinking` | - | Breaks down multi-step problems |
-| **Read/write files** | `filesystem` | - | Direct file operations |
-| **Git operations** | `git` | bash | Native git commands |
-| **GitHub PRs/issues** | `github` | fetch | API access, not scraping |
-| **Library docs** | `context7` | fetch | Always current, structured |
-| **Web content** | `fetch` | playwright | Lightweight, fast |
-| **Browser automation** | `playwright` | - | JS rendering, screenshots |
-| **Kubernetes** | `kubernetes` | bash | Native K8s API |
+| Task                            | Primary Server        | Fallback     | Why                                 |
+| ------------------------------- | --------------------- | ------------ | ----------------------------------- |
+| **Find code by meaning**        | `code-index`          | `filesystem` | Semantic search = 100x fewer tokens |
+| **Store knowledge permanently** | `qdrant`              | `memory`     | Vector DB persists across sessions  |
+| **Project context**             | `memory-bank`         | `memory`     | Project-specific, structured        |
+| **Complex reasoning**           | `sequential-thinking` | -            | Breaks down multi-step problems     |
+| **Read/write files**            | `filesystem`          | -            | Direct file operations              |
+| **Git operations**              | `git`                 | bash         | Native git commands                 |
+| **GitHub PRs/issues**           | `github`              | fetch        | API access, not scraping            |
+| **Library docs**                | `context7`            | fetch        | Always current, structured          |
+| **Web content**                 | `fetch`               | playwright   | Lightweight, fast                   |
+| **Browser automation**          | `playwright`          | -            | JS rendering, screenshots           |
+| **Kubernetes**                  | `kubernetes`          | bash         | Native K8s API                      |
 
 ---
 
@@ -70,12 +70,12 @@
 
 ### Memory Server Commands
 
-| Server | Key Operations | Example |
-|--------|---------------|---------|
-| **qdrant** | `store`, `find`, `search` | Store architectural pattern for reuse |
-| **memory** | `create_entities`, `search_nodes`, `add_relations` | "Daniel prefers Python for backend" |
-| **memory-bank** | `initialize_memory_bank`, `update_context` | Track current task progress |
-| **sequential-thinking** | `create_thinking_session`, `add_thought` | Plan complex refactoring |
+| Server                  | Key Operations                                     | Example                               |
+| ----------------------- | -------------------------------------------------- | ------------------------------------- |
+| **qdrant**              | `store`, `find`, `search`                          | Store architectural pattern for reuse |
+| **memory**              | `create_entities`, `search_nodes`, `add_relations` | "Daniel prefers Python for backend"   |
+| **memory-bank**         | `initialize_memory_bank`, `update_context`         | Track current task progress           |
+| **sequential-thinking** | `create_thinking_session`, `add_thought`           | Plan complex refactoring              |
 
 ---
 
@@ -85,12 +85,12 @@
 
 **CRITICAL: For codebases with 100M+ lines, NEVER read entire files. Use semantic search.**
 
-| Approach | Tokens Used | Speed |
-|----------|-------------|-------|
-| Read entire file | 50,000+ | Slow, fills context |
-| Grep search | 5,000-20,000 | Medium |
-| `code-index` semantic search | 200-500 | Fast, precise |
-| `filesystem` targeted read | 500-2,000 | Fast if you know location |
+| Approach                     | Tokens Used  | Speed                     |
+| ---------------------------- | ------------ | ------------------------- |
+| Read entire file             | 50,000+      | Slow, fills context       |
+| Grep search                  | 5,000-20,000 | Medium                    |
+| `code-index` semantic search | 200-500      | Fast, precise             |
+| `filesystem` targeted read   | 500-2,000    | Fast if you know location |
 
 ### Code Server Selection
 
@@ -121,11 +121,11 @@
 
 ### Server Commands
 
-| Server | Operations | Best For |
-|--------|-----------|----------|
-| **code-index** | `search`, `index`, `find_similar` | Finding code by meaning, not keywords |
-| **filesystem** | `read_file`, `write_file`, `list_directory` | Direct file operations |
-| **git** | `status`, `commit`, `diff`, `log`, `branch` | Version control |
+| Server         | Operations                                  | Best For                              |
+| -------------- | ------------------------------------------- | ------------------------------------- |
+| **code-index** | `search`, `index`, `find_similar`           | Finding code by meaning, not keywords |
+| **filesystem** | `read_file`, `write_file`, `list_directory` | Direct file operations                |
+| **git**        | `status`, `commit`, `diff`, `log`, `branch` | Version control                       |
 
 ---
 
@@ -133,12 +133,12 @@
 
 ### Server Selection
 
-| Need | Server | Why |
-|------|--------|-----|
-| Library API docs | `context7` | Structured, always current |
-| Any web page | `fetch` | Fast, returns markdown |
-| JavaScript-heavy sites | `playwright` | Full browser rendering |
-| Screenshots needed | `playwright` | Can capture visuals |
+| Need                   | Server       | Why                        |
+| ---------------------- | ------------ | -------------------------- |
+| Library API docs       | `context7`   | Structured, always current |
+| Any web page           | `fetch`      | Fast, returns markdown     |
+| JavaScript-heavy sites | `playwright` | Full browser rendering     |
+| Screenshots needed     | `playwright` | Can capture visuals        |
 
 ### Usage Patterns
 
@@ -160,23 +160,23 @@ playwright: screenshot()
 
 ### GitHub Server (`github`)
 
-| Operation | Command | Use Case |
-|-----------|---------|----------|
-| Create PR | `create_pull_request` | Submit changes for review |
-| List issues | `list_issues` | Find bugs/features to work on |
-| Review PR | `get_pull_request`, `add_comment` | Code review |
-| Search code | `search_code` | Find patterns across repos |
-| Get file | `get_file_contents` | Read from any branch |
+| Operation   | Command                           | Use Case                      |
+| ----------- | --------------------------------- | ----------------------------- |
+| Create PR   | `create_pull_request`             | Submit changes for review     |
+| List issues | `list_issues`                     | Find bugs/features to work on |
+| Review PR   | `get_pull_request`, `add_comment` | Code review                   |
+| Search code | `search_code`                     | Find patterns across repos    |
+| Get file    | `get_file_contents`               | Read from any branch          |
 
 ### Kubernetes Server (`kubernetes`)
 
-| Operation | Command | Use Case |
-|-----------|---------|----------|
-| Get pods | `get_pods` | Check running containers |
-| Get logs | `get_logs` | Debug issues |
-| Apply manifest | `apply` | Deploy changes |
-| Describe resource | `describe` | Troubleshoot |
-| Get services | `get_services` | Find endpoints |
+| Operation         | Command        | Use Case                 |
+| ----------------- | -------------- | ------------------------ |
+| Get pods          | `get_pods`     | Check running containers |
+| Get logs          | `get_logs`     | Debug issues             |
+| Apply manifest    | `apply`        | Deploy changes           |
+| Describe resource | `describe`     | Troubleshoot             |
+| Get services      | `get_services` | Find endpoints           |
 
 ---
 
@@ -231,6 +231,7 @@ ALWAYS:
 ## 🎯 Task-Specific Server Selection
 
 ### "Fix a bug"
+
 ```
 1. code-index → Find relevant code
 2. filesystem → Read specific section
@@ -240,6 +241,7 @@ ALWAYS:
 ```
 
 ### "Add new feature"
+
 ```
 1. memory-bank → Check project context
 2. code-index → Find similar existing features
@@ -251,6 +253,7 @@ ALWAYS:
 ```
 
 ### "Understand large codebase"
+
 ```
 1. code-index → Search by concepts, not files
 2. qdrant → Store understanding as you learn
@@ -259,6 +262,7 @@ ALWAYS:
 ```
 
 ### "Debug production issue"
+
 ```
 1. kubernetes → Get pod logs
 2. code-index → Find relevant code
@@ -268,6 +272,7 @@ ALWAYS:
 ```
 
 ### "Code review"
+
 ```
 1. github → Get PR details
 2. code-index → Find related code patterns
@@ -281,14 +286,14 @@ ALWAYS:
 
 ### For 100M+ Line Codebases
 
-| Operation | Tokens | Method |
-|-----------|--------|--------|
-| Find auth code | 300 | `code-index search "authentication"` |
-| Read entire auth.py | 50,000 | ❌ NEVER DO THIS |
-| Read auth function | 500 | `filesystem read_file` with line range |
-| Find similar patterns | 400 | `code-index find_similar` |
-| Store pattern | 100 | `qdrant store` |
-| Recall pattern | 200 | `qdrant search` |
+| Operation             | Tokens | Method                                 |
+| --------------------- | ------ | -------------------------------------- |
+| Find auth code        | 300    | `code-index search "authentication"`   |
+| Read entire auth.py   | 50,000 | ❌ NEVER DO THIS                       |
+| Read auth function    | 500    | `filesystem read_file` with line range |
+| Find similar patterns | 400    | `code-index find_similar`              |
+| Store pattern         | 100    | `qdrant store`                         |
+| Recall pattern        | 200    | `qdrant search`                        |
 
 ### Context Management Rules
 
@@ -304,15 +309,15 @@ ALWAYS:
 
 ### Pre-commit Checks (Automatic)
 
-| Check | Tool | Blocks Commit If |
-|-------|------|------------------|
-| Format | ruff-format | Code not formatted |
-| Lint | ruff | Errors or warnings |
-| Types | mypy | Type mismatches |
-| Security | bandit | Vulnerabilities found |
-| Secrets | detect-secrets | API keys in code |
-| Tests | pytest | Coverage < 80% |
-| Commits | commitizen | Bad commit message |
+| Check    | Tool           | Blocks Commit If      |
+| -------- | -------------- | --------------------- |
+| Format   | ruff-format    | Code not formatted    |
+| Lint     | ruff           | Errors or warnings    |
+| Types    | mypy           | Type mismatches       |
+| Security | bandit         | Vulnerabilities found |
+| Secrets  | detect-secrets | API keys in code      |
+| Tests    | pytest         | Coverage < 80%        |
+| Commits  | commitizen     | Bad commit message    |
 
 ### Commit Message Format
 
@@ -343,7 +348,7 @@ In Claude Code, type `/mcp` to verify all 12 servers:
 
 ```
 ✓ memory              - Knowledge graph
-✓ memory-bank         - Project context  
+✓ memory-bank         - Project context
 ✓ sequential-thinking - Complex reasoning
 ✓ code-index          - Semantic search
 ✓ qdrant              - Vector database
